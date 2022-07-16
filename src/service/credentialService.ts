@@ -32,14 +32,22 @@ async function getCredentials(userId: number){
 async function getOnly(id: number, userId: number){
     const result = await credentialRepository.getCredentialsById(id, userId);
     if(!result){
-        throw { type: "notFound", message: "credential not found for this user"}
+        throw { type: "unauthorized", message: "credential not found for this user"}
     }
     const decryptedPassword = cryptr.decrypt(result.password);
     return {...result, password: decryptedPassword};
 }
 
+async function deleteCredential(id: number, userId: number){
+    await credentialRepository.deleteCredential(id, userId).catch(err=>{
+        if(err.code === "P2025")
+            throw { type: "unauthorized", message:err.meta.cause}
+    })
+}
+
 export {
     createCredential,
     getCredentials,
-    getOnly
+    getOnly,
+    deleteCredential
 }

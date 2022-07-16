@@ -27,8 +27,20 @@ async function getCredentialsById(id: number, userId: number){
     })
 }
 
+async function deleteCredential(id: number , userId: number){
+    return await prisma.credentials.delete({
+        where:{
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        }
+    })
+}
+
 export {
     insertCredential,
     getCredentials,
-    getCredentialsById
+    getCredentialsById,
+    deleteCredential
 };
