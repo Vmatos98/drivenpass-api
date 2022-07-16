@@ -47,7 +47,7 @@ model Credentials{
 
 model Cards{
   id          Int       @id       @default(autoincrement())
-  number      String
+  number      String    @unique
   cardName    String
   expDate     String
   cvv         String
@@ -58,7 +58,7 @@ model Cards{
   createdAt   DateTime  @default(now())
   userId      Int
   user Users @relation(fields: [userId], references: [id])
-  @@unique(fields: [number, userId])
+  
   @@unique(fields: [title, userId])
 }
 

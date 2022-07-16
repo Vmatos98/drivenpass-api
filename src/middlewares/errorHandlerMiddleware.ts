@@ -10,8 +10,10 @@ const ERRORS = {
 export default function errorHandler(err, req: Request, res: Response, next: NextFunction) {
     console.log(err);
     const type: string = err.type;
+    const message: string = err.message;
     let statusCode = ERRORS[type];
     if(!statusCode) statusCode = 500; // any other types
 
-    return res.sendStatus(statusCode); // internal server error
+    if(message) return res.status(statusCode).send(message) 
+    else return res.sendStatus(statusCode);
 }
