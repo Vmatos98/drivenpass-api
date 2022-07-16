@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import router from './routes/index.js';
-import errorHandler from './middleware/errorHandlerMiddleware.js';
+import errorHandler from './middlewares/errorHandlerMiddleware.js';
 
 dotenv.config();
 
