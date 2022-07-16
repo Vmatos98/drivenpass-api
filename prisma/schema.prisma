@@ -25,21 +25,24 @@ model Users{
 
 model Notes{
   id Int @id @default(autoincrement())
-  title String
+  title String 
   content String
   createdAt DateTime @default(now())
   userId Int
   user Users @relation(fields: [userId], references: [id])
+  @@unique(fields: [title, userId])
 }
 
 model Credentials{
   id          Int       @id       @default(autoincrement())
   url         String
+  title       String
   userName    String
   password    String
   userId      Int
   createdAt   DateTime  @default(now())
   user Users @relation(fields: [userId], references: [id])
+  @@unique(fields: [title, userId])
 }
 
 model Cards{
@@ -51,9 +54,12 @@ model Cards{
   password    String
   isVirtual   Boolean
   type        CardType
+  title       String
   createdAt   DateTime  @default(now())
   userId      Int
   user Users @relation(fields: [userId], references: [id])
+  @@unique(fields: [number, userId])
+  @@unique(fields: [title, userId])
 }
 
 model Wifi{

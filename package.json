@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
     "bcrypt": "^5.0.1",
     "color": "^4.2.3",
     "cors": "^2.8.5",
