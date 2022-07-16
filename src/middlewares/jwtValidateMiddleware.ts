@@ -10,6 +10,8 @@ export default async function jwtValidateMiddleware(req: Request, res: Response,
     if (!decoded) {
         throw { type: "unauthorized", message: "invalid api key" };
     }
+    console.log(decoded);
+    
     res.locals.decoded= decoded;
     next();
 }

@@ -7,5 +7,7 @@ import jwtValidateMiddleware from '../middlewares/jwtValidateMiddleware.js';
 const credentialRoute = Router();
 
 credentialRoute.post("/insert/credential", jwtValidateMiddleware, validateSchemasMiddleware(schemas.createCredentialSchemaValidate), controllers.createCredential);
+credentialRoute.get("/credential/:id",jwtValidateMiddleware, controllers.getCredentialsById )
+credentialRoute.get("/credential", jwtValidateMiddleware, controllers.getCredentials)
 
 export default credentialRoute;

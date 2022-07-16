@@ -8,6 +8,27 @@ async function insertCredential(credentialData: createCredentialData){
     });
 }
 
+async function getCredentials(userId: number){
+    return await prisma.credentials.findMany({
+        where: {
+            userId
+        }
+    });
+}
+
+async function getCredentialsById(id: number, userId: number){
+    return await prisma.credentials.findUnique({
+        where:{
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        },
+    })
+}
+
 export {
-    insertCredential
+    insertCredential,
+    getCredentials,
+    getCredentialsById
 };

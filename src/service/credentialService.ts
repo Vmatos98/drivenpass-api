@@ -16,6 +16,30 @@ async function createCredential(credentialData: createCredentialData){
     });
 }
 
+async function getCredentials(userId: number){
+    const result = await credentialRepository.getCredentials(userId);
+    if(!result){
+        throw {type: "notFound", message: "credentials not found"};
+    }
+    const data = result.map(credential => {
+        const decryptedPassword = cryptr.decrypt(credential.password);
+        return {...credential, password: decryptedPassword};
+    }
+    );
+    return data;
+}
+
+async function getOnly(id: number, userId: number){
+    const result = await credentialRepository.getCredentialsById(id, userId);
+    if(!result){
+        throw { type: "notFound", message: "credential not found for this user"}
+    }
+    const decryptedPassword = cryptr.decrypt(result.password);
+    return {...result, password: decryptedPassword};
+}
+
 export {
-    createCredential
+    createCredential,
+    getCredentials,
+    getOnly
 }
