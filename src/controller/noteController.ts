@@ -13,7 +13,15 @@ async function getNoteController(req: Request, res: Response){
     res.status(200).send(result);
 }
 
+async function getOnlyNoteController(req: Request, res: Response) {
+    const userId = res.locals.decoded.userId;
+    const noteId = +req.params.id;
+    const result = await service.getOnly(noteId, userId);
+    res.status(200).send(result);
+}
+
 export {
     createNoteController,
-    getNoteController
+    getNoteController,
+    getOnlyNoteController
 }

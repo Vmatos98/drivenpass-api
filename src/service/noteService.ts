@@ -15,6 +15,7 @@ async function insertNote(createNotesData:createNotesData){
 
 async function getNotes(userId: number){
     const notes = await repositories.getNotes(userId);
+    if(!notes) throw{type: "unauthorized", message: "note not found for this user"}
     const result = notes.map(note=>{
         const decryptedNote = cryptr.decrypt(note.content);
         return {...note, content: decryptedNote};
@@ -22,7 +23,16 @@ async function getNotes(userId: number){
     return result;
 }
 
+async function getOnly(id: number, userId: number){
+    const note = await repositories.getNoteById(id, userId);
+    if(!note) throw{type: "unauthorized", message: "note not found for this user"}
+    const decryptedNote = cryptr.decrypt(note.content);
+    const result = {...note, content: decryptedNote};
+    return result;
+}
+
 export{
     insertNote,
-    getNotes
+    getNotes,
+    getOnly
 };

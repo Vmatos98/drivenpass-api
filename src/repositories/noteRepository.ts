@@ -15,7 +15,19 @@ async function getNotes(userId: number){
     })
 }
 
+async function getNoteById(id: number , userId: number){
+    return await prisma.notes.findUnique({
+        where: {
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        },
+    })
+}
+
 export {
     insertNote,
-    getNotes
+    getNotes,
+    getNoteById
 }
