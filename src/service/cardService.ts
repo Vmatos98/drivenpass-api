@@ -14,10 +14,49 @@ async function insertCard(createCardData:createCardData){
         cvv: cryptr.encrypt(createCardData.cvv),
         password: cryptr.encrypt(createCardData.password)
     }
-    await repositories.insertCard(encryptedCard);
+    await repositories.insertCard(encryptedCard).catch(err=>{
+        if(err.code === "P2002")
+            throw { type: "unauthorized", message:"this card already exists"}
+    });
 }
 
+async function getCards(userId: number){
+
+    const data = await repositories.getCards(userId);
+    if(!data)
+        throw{type: "unauthorized", message: "card not found for this user"}
+    
+    const result = data.map(card=> {
+        
+        return {
+            ...card,
+            password: cryptr.decrypt(card.password),
+            number: cryptr.decrypt(card.number),
+            cardName: cryptr.decrypt(card.cardName),
+            cvv: cryptr.decrypt(card.cvv)
+        };
+    })
+    
+    console.log(result);
+    return result;
+}
+
+async function getOnlyCard(id: number, userId: number){
+    const card = await repositories.getOnly(id, userId);
+    if(!card)
+        throw{type: "unauthorized", message: "card not found for this user"}
+    const decryptCard={...card, 
+        password: cryptr.decrypt(card.password),
+        number: cryptr.decrypt(card.number),
+        cardName: cryptr.decrypt(card.cardName),
+        cvv: cryptr.decrypt(card.cvv)
+    }
+
+    return decryptCard;
+}
 
 export {
     insertCard,
+    getCards,
+    getOnlyCard,
 }

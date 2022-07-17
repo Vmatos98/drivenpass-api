@@ -8,6 +8,27 @@ async function insertCard(createCardData:createCardData){
     });
 }
 
+async function getCards(userId: number){
+    return await prisma.cards.findMany({
+        where:{
+            userId,
+        },
+    })
+}
+
+async function getOnly(id: number , userId: number){
+    return await prisma.cards.findUnique({
+        where: {
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        },
+    })
+}
+
 export {
     insertCard,
+    getCards,
+    getOnly
 }

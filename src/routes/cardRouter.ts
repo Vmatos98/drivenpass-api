@@ -7,5 +7,6 @@ import jwtValidateMiddleware from '../middlewares/jwtValidateMiddleware.js';
 const cardRouter = Router();
 
 cardRouter.post('/insert/card', jwtValidateMiddleware, validateSchemasMiddleware(schemas.createCardSchemaValidate), controllers.createCardController);
-
+cardRouter.get('/cards', jwtValidateMiddleware, controllers.getCardsController);
+cardRouter.get('/cards/:id', jwtValidateMiddleware, controllers.getOnlyCardController)
 export default cardRouter;
