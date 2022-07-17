@@ -55,8 +55,16 @@ async function getOnlyCard(id: number, userId: number){
     return decryptCard;
 }
 
+async function deleteCard(id: number, userId: number){
+    await repositories.deleteCard(id, userId).catch(err=>{
+        if(err.code === "P2025")
+            throw { type: "unauthorized", message:err.meta.cause};
+    })
+}
+
 export {
     insertCard,
     getCards,
     getOnlyCard,
+    deleteCard
 }

@@ -27,8 +27,20 @@ async function getOnly(id: number , userId: number){
     })
 }
 
+async function deleteCard(id: number , userId: number){
+    return await prisma.cards.delete({
+        where:{
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        }
+    })
+}
+
 export {
     insertCard,
     getCards,
-    getOnly
+    getOnly,
+    deleteCard
 }
