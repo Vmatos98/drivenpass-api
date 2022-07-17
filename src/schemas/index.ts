@@ -2,9 +2,11 @@ import Joi from 'joi';
 import {createUserData, searchUserData} from "../service/authService.js";
 import {createCredentialData} from "../service/credentialService.js";
 import {createNotesData} from "../service/noteService.js"
+import {createCardData} from"../service/cardService.js"
 
 type validateCredential = Omit<createCredentialData, "userId">;
-type validateNote = Omit<createNotesData, "userId">
+type validateNote = Omit<createNotesData, "userId">;
+type validateCard = Omit<createCardData, "userId">;
 
 const loginSChemaValidate = Joi.object<searchUserData>({
     email: Joi.string().email().required(),
@@ -29,9 +31,21 @@ const createNoteSchemaValidate= Joi.object<validateNote>({
     content: Joi.string().max(1000).required()
 })
 
+const createCardSchemaValidate = Joi.object<validateCard>({
+    number: Joi.string().required(),
+    title: Joi.string().required(),
+    password: Joi.string().pattern(/^[0-9]+$/).required(),
+    cardName: Joi.string().required(),
+    expDate: Joi.string().pattern(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/).required(),
+    cvv: Joi.string().pattern(/^[0-9]+$/).length(3).required(),
+    isVirtual: Joi.boolean().required(),
+    type: Joi.string().valid('CREDIT', 'DEBIT', 'BOTH').required(),
+})
+
 export {
     loginSChemaValidate,
     siginSChemaValidate,
     createCredentialSchemaValidate,
     createNoteSchemaValidate,
+    createCardSchemaValidate
 };
