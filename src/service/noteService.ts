@@ -31,8 +31,16 @@ async function getOnly(id: number, userId: number){
     return result;
 }
 
+async function deleteNote(id: number, userId: number){
+    await repositories.deleteNote(id, userId).catch(err=>{
+        if(err.code === "P2025")
+            throw { type: "unauthorized", message:err.meta.cause};
+    })
+}
+
 export{
     insertNote,
     getNotes,
-    getOnly
+    getOnly,
+    deleteNote
 };

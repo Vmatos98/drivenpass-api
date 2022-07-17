@@ -26,8 +26,20 @@ async function getNoteById(id: number , userId: number){
     })
 }
 
+async function deleteNote(id: number , userId: number){
+    return await prisma.notes.delete({
+        where:{
+            credentialValidation:{
+                id: id,
+                userId: userId,
+            },
+        }
+    })
+}
+
 export {
     insertNote,
     getNotes,
-    getNoteById
+    getNoteById,
+    deleteNote
 }

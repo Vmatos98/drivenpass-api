@@ -20,8 +20,16 @@ async function getOnlyNoteController(req: Request, res: Response) {
     res.status(200).send(result);
 }
 
+async function deleteNoteController(req: Request, res: Response){
+    const userId = res.locals.decoded.userId;
+    const noteId = +req.params.id;
+    await service.deleteNote(noteId, userId);
+    res.sendStatus(201);
+}
+
 export {
     createNoteController,
     getNoteController,
-    getOnlyNoteController
+    getOnlyNoteController,
+    deleteNoteController
 }
