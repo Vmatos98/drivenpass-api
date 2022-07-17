@@ -7,6 +7,15 @@ async function insertNote(createNotesData:createNotesData){
     })
 }
 
+async function getNotes(userId: number){
+    return await prisma.notes.findMany({
+        where: {
+            userId
+        }
+    })
+}
+
 export {
     insertNote,
+    getNotes
 }

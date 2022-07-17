@@ -6,5 +6,5 @@ import jwtValidateMiddleware from '../middlewares/jwtValidateMiddleware.js';
 
 const noteRouter = Router();
 noteRouter.post('/insert/note', jwtValidateMiddleware, validateSchemasMiddleware(schemas.createNoteSchemaValidate), controllers.createNoteController);
-
+noteRouter.get('/notes', jwtValidateMiddleware, controllers.getNoteController)
 export default noteRouter;

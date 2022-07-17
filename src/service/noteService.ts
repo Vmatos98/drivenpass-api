@@ -13,4 +13,16 @@ async function insertNote(createNotesData:createNotesData){
     await repositories.insertNote(encryptedNote);
 }
 
-export{insertNote};
+async function getNotes(userId: number){
+    const notes = await repositories.getNotes(userId);
+    const result = notes.map(note=>{
+        const decryptedNote = cryptr.decrypt(note.content);
+        return {...note, content: decryptedNote};
+    })
+    return result;
+}
+
+export{
+    insertNote,
+    getNotes
+};
