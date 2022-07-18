@@ -3,10 +3,12 @@ import {createUserData, searchUserData} from "../service/authService.js";
 import {createCredentialData} from "../service/credentialService.js";
 import {createNotesData} from "../service/noteService.js"
 import {createCardData} from"../service/cardService.js"
+import {createWifiData} from"../service/wifiService.js"
 
 type validateCredential = Omit<createCredentialData, "userId">;
 type validateNote = Omit<createNotesData, "userId">;
 type validateCard = Omit<createCardData, "userId">;
+type validateWifi = Omit<createWifiData, "userId">
 
 const loginSChemaValidate = Joi.object<searchUserData>({
     email: Joi.string().email().required(),
@@ -42,10 +44,17 @@ const createCardSchemaValidate = Joi.object<validateCard>({
     type: Joi.string().valid('CREDIT', 'DEBIT', 'BOTH').required(),
 })
 
+const createWifiSchemaValidate = Joi.object<validateWifi>({
+    ssid: Joi.string().required(),
+    password: Joi.string().required(),
+    title: Joi.string().required()
+})
+
 export {
     loginSChemaValidate,
     siginSChemaValidate,
     createCredentialSchemaValidate,
     createNoteSchemaValidate,
-    createCardSchemaValidate
+    createCardSchemaValidate,
+    createWifiSchemaValidate
 };

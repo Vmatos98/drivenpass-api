@@ -73,6 +73,7 @@ model Wifi{
   createdAt   DateTime  @default(now())
   userId      Int
   user Users @relation(fields: [userId], references: [id])
+  @@unique(fields: [id, userId], name : "credentialValidation")
 }
 
 enum CardType{
